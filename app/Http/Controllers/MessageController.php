@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\SocketMessage;
 use App\Models\User;
 use App\Models\Group;
 use App\Models\Message;
+use Illuminate\Support\Str;
+use App\Models\Conversation;
 use Illuminate\Http\Request;
+use App\Events\SocketMessage;
 use App\Models\MessageAttachment;
 use App\Http\Resources\MessageResource;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreMessageRequest;
-use App\Models\Conversation;
 
 class MessageController extends Controller
 {
@@ -80,7 +81,7 @@ class MessageController extends Controller
                 $directory = 'attachments/' . Str::random(32);
                 Storage::makeDirectory($directory);
                 $model = [
-                    'message_id' => $message_id,
+                    'message_id' => $message->id,
                     'name' => $file->getClientOriginalName(),
                     'mime' => $file->getClientMimeType(),
                     'size' => $file->getSize(),
