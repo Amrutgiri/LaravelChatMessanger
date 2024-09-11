@@ -14,7 +14,7 @@ import { Popover, Transition } from '@headlessui/react'
 import { isAudio, isImage } from "@/helpers";
 import AttachmentPreview from "./AttachmentPreview";
 import CustomAudioPlayer from "./CustomAudioPlayer";
-
+import AudioRecoder from "./AudioRecoder";
 
 const MessageInput = ({ conversation = null }) => {
     const [newMassage, setNewMessage] = useState("");
@@ -103,6 +103,9 @@ const MessageInput = ({ conversation = null }) => {
             .post(route("message.store"),data)
     }
 
+    const recordedAudioReady=(file, url)=>{
+        setChosenFiles((prevFiles)=>[...prevFiles,{file,url}]);
+    }
 
     return (
         <div className="flex flex-wrap items-start p-3 border-t border-slate-700">
@@ -126,6 +129,7 @@ const MessageInput = ({ conversation = null }) => {
                         className="absolute top-0 bottom-0 left-0 right-0 z-20 opacity-0 cursor-pointer"
                     />
                 </button>
+                <AudioRecoder fileReady={recordedAudioReady} />
             </div>
 
             <div className="order-1 px-3 xs:p-0 min-w-[220px] basis-full xs:basis-0 xs-order-2  flex-1 relative">
