@@ -45,10 +45,36 @@ const ChatLayout = ({ children }) => {
         })
     }
 
+    const messageDeleted= ({prevMessage})=>{
+        if(!prevMessage){
+            return;
+        }
+        //Find the conversation by prevMessage and updated its last_message_id and date
+        messageCreated(prevMessage);
+        // setLocalConversations((oldUsers)=>{
+        //     return oldUsers.map((u)=>{
+        //        if(prevMessage.receiver_id && !u.is_group && (u.id== prevMessage.sender_id || u.id==prevMessage.receiver_id)){
+        //         u.last_message=prevMessage.message;
+        //         u.last_message_date=prevMessage.created_at;
+        //         return u;
+
+        //        }
+        //        if(prevMessage.group_id && u.is_group && u.id==prevMessage.group_id){
+        //         u.last_message=prevMessage.message;
+        //         u.last_message_date=prevMessage.created_at;
+        //         return u;
+        //        }
+        //        return u;
+        // })
+
+    }
+
     useEffect(() => {
        const offCreated=on("message.created",messageCreated);
+       const offDeleted=on("message.deletes",messageDeleted);
         return ()=>{
             offCreated();
+            offDeleted();
        };
     }, [on]);
 

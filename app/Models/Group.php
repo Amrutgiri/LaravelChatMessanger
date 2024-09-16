@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Message;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Group extends Model
 {
@@ -31,6 +32,10 @@ class Group extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function lastMessage()
+    {
+        return $this->belongsTo(Message::class, 'last_message_id');
+    }
     public static function getGroupsForUser(User $user)
     {
         $query = self::select(['groups.*', 'messages.message as last_message', 'messages.created_at as last_message_date'])
